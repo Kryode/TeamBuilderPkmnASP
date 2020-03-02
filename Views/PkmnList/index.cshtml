@@ -2,41 +2,38 @@
 
 @{
     ViewData["Title"] = "PkmnList";
-    
 }
 
 <h1>PkmnList</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
+    <!--
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                //Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                //Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in (Pokemon[])ViewData["pokemons"]) {
+    -->
+    @foreach (var pokemon in (Pokemon[])ViewData["pokemons"])
+    {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @pokemon.Id
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                <img src="@pokemon.Image" alt="missing sprite" asp-append-version="false"/>
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @pokemon.Name
             </td>
         </tr>
-}
-    </tbody>
+    }
+    <!--</tbody>-->
 </table>
