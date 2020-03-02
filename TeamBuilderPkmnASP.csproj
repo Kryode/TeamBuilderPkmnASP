@@ -12,6 +12,7 @@
   <ItemGroup>
     <Reference Include="StringHelper">
       <HintPath>..\StringHelper\bin\Release\netstandard2.0\StringHelper.dll</HintPath>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 
