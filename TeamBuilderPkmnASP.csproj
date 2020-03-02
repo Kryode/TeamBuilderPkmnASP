@@ -10,13 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="StringHelper">
-      <HintPath>..\StringHelper\bin\Release\netstandard2.0\StringHelper.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="wwwroot\css\site.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2953,6 +2946,12 @@
   <ItemGroup>
     <Folder Update="Resources\" />
     <Folder Include="wwwroot\data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="StringHelper">
+      <HintPath>dependancies\StringHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 
