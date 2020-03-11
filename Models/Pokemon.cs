@@ -1,58 +1,47 @@
-﻿using CsvHelper;
+﻿using KryodeHelpers;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CsvHelper.Configuration;
-using CsvHelper.Configuration.Attributes;
-using System.Text;
-using KryodeHelpers;
-using static System.Net.Mime.MediaTypeNames;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeamBuilderPkmnASP.Models
 {
-    public class Pokemon
+    public partial class Pokemon
     {
+        [Required]
+        [Column("identifier")]
+        [StringLength(100)]
         private string lowerName;
-        [Name("id")]
+        [Key]
+        [Column("id")]
         public int Id { get; set; }
-        [Name("identifier")]
-        public string Name { 
-            get 
+        [Required]
+        [Column("identifier")]
+        [StringLength(100)]
+        public string Identifier
+        {
+            get
             {
                 return StringHelper.FirstCharToUpper(lowerName);
-            } 
-            set 
+            }
+            set
             {
                 lowerName = value.ToLower();
             }
         }
+        [Column("species_id")]
+        public int SpeciesId { get; set; }
+        [Column("order")]
+        public int Order { get; set; }
+        [Column("is_default")]
+        public bool IsDefault { get; set; }
 
-        public string Image { get; set; }
-        
-        //Csv construct
-        public Pokemon(int id, string identifier)
+        public string Image
         {
-            this.Id = id;
-            this.lowerName = identifier;
-            this.Image = DataPaths.Sprite + Id.ToString() + ".png";
-        }
-
-        public static Pokemon[] GetPokemons()
-        {
-            Pokemon[] pokemons;
-            using (var reader = new StreamReader(DataPaths.PokemonCsv))
+            get
             {
-                CsvConfiguration configuration = new CsvConfiguration(CultureInfo.InvariantCulture);
-                configuration.HeaderValidated = null;
-                using (var csv = new CsvReader(reader, configuration))
-                {
-                    pokemons = csv.GetRecords<Pokemon>().ToArray();
-                }
+                return DataPaths.Sprite + SpeciesId.ToString() + ".png";
             }
-            return pokemons;
         }
     }
 }
