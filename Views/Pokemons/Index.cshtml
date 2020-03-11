@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TeamBuilderPkmnASP.Models.Pokemon>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Pokemons list</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Identifier)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Pokemon item in Model)
+        {
+
+            <tr>
+                <td>
+                    <img src="@item.Image" alt="missing sprite" />
+                </td>
+                <td>
+
+                    <a asp-controller="Pokemons" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Identifier)
+                    </a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
