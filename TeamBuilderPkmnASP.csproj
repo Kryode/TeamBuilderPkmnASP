@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\data\**" />
+    <Content Remove="wwwroot\data\**" />
+    <EmbeddedResource Remove="wwwroot\data\**" />
+    <None Remove="wwwroot\data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,18 +31,6 @@
   <ItemGroup>
     <Content Update="wwwroot\css\site.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\csv\moves.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\csv\pokemon.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\csv\pokemon_types.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\csv\types.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\images\1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -2960,7 +2955,6 @@
 
   <ItemGroup>
     <Folder Update="Resources\" />
-    <Folder Include="wwwroot\data\" />
   </ItemGroup>
 
   <ItemGroup>

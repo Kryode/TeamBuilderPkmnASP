@@ -6,13 +6,10 @@ namespace TeamBuilderPkmnASP.Models
 {
     public partial class Pokemon
     {
-        [Required]
-        [Column("identifier")]
-        [StringLength(100)]
-        private string lowerName;
         [Key]
         [Column("id")]
         public int Id { get; set; }
+
         [Required]
         [Column("identifier")]
         [StringLength(100)]
@@ -27,10 +24,13 @@ namespace TeamBuilderPkmnASP.Models
                 lowerName = value.ToLower();
             }
         }
+
         [Column("species_id")]
         public int SpeciesId { get; set; }
+
         [Column("order")]
         public int Order { get; set; }
+
         [Column("is_default")]
         public bool IsDefault { get; set; }
 
@@ -38,8 +38,17 @@ namespace TeamBuilderPkmnASP.Models
         {
             get
             {
-                return DataPaths.Sprite + SpeciesId.ToString() + ".png";
+                if (IsDefault)
+                {
+                    return DataPaths.Sprite + SpeciesId.ToString() + ".png";
+                }
+                else
+                {
+                    string specialFormId = lowerName.Split('-', 2)[1];
+                    return DataPaths.Sprite + SpeciesId.ToString() + "-" + specialFormId + ".png";
+                }
             }
         }
+        private string lowerName;
     }
 }

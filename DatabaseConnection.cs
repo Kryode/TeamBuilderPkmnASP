@@ -18,8 +18,6 @@ namespace TeamBuilderPkmnASP
             {
                 return GetConnection();
             }
-
-            set { _connection = value; }
         }
 
         private static SqlConnection GetConnection()
@@ -37,7 +35,7 @@ namespace TeamBuilderPkmnASP
                 connection.Open();
                 if (connection.State == ConnectionState.Open)
                 {
-                    //connection.Close();
+                    connection.Close();
                     _connection = connection;
                 }
                 else
@@ -46,33 +44,6 @@ namespace TeamBuilderPkmnASP
                 }
             }
             return _connection;
-        }
-
-        public static object[][] GetDatas(string query)
-        {
-            try
-            {
-                List<object[]> datas = new List<object[]>();
-                SqlCommand commandQuery = new SqlCommand(query, Connection);
-                Connection.Open();
-                SqlDataReader reader = commandQuery.ExecuteReader();
-                
-                while (reader.Read())
-                {
-                    List<object> row = new List<object>();
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        row.Add(reader.GetValue(i));
-                    }
-                    datas.Add(row.ToArray());
-                }
-                Connection.Close();
-                return datas.ToArray();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
     }
 }

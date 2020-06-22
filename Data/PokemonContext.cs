@@ -21,19 +21,5 @@ namespace TeamBuilderPkmnASP.Data
                 optionsBuilder.UseSqlServer(DatabaseConnection.Connection);
             }
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Pokemon>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Identifier).IsUnicode(false);
-            });
-
-            OnModelCreatingPartial(modelBuilder);
-        }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
