@@ -1,9 +1,30 @@
 ﻿@model IEnumerable<TeamBuilderPkmnASP.Models.Pokemon>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pokemons list";
+    Microsoft.Extensions.Primitives.StringValues searchValue ="";
+    ViewData["verif"] = Url.ActionContext.HttpContext.Request.Query.TryGetValue("search",out searchValue);
 }
+<div class="row">
+    <div class="col-md-5 offset-2"><h1>@ViewData["Title"]</h1></div>
+    <div class="col-md-5">
+        <form asp-controller="Pokemons" asp-action="Index" method="get">
+            @{
+                if ((bool)ViewData["verif"])
+                {
+                    <input name="search" type="text" value="@searchValue.ToArray()[0].ToString()"/>
+                }
+                else
+                {
+                    <input name="search" type="text" />
+                    
 
-<h1>Pokemons list</h1>
+                }
+            }
+
+            <input type="submit" />
+        </form> 
+    </div>
+</div>
 
 <table class="table">
     <thead>
