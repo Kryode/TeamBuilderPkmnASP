@@ -50,5 +50,13 @@ namespace TeamBuilderPkmnASP.Models
             }
         }
         private string lowerName;
+
+        public Pokemon(int id, string identifier,int speciesId, int order)
+        {
+            this.Id = id;
+            this.Identifier = identifier;
+            this.SpeciesId = speciesId;
+            this.Order = order;
+        }
     }
 }
