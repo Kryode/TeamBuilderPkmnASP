@@ -31,6 +31,7 @@ namespace TeamBuilderPkmnASP
                     UserID = Environment.GetEnvironmentVariable("dbusername"),
                     Password = Environment.GetEnvironmentVariable("dbpassword")
                 };
+                builder.MultipleActiveResultSets = true;
                 SqlConnection connection = new SqlConnection(builder.ConnectionString);
                 connection.Open();
                 if (connection.State == ConnectionState.Open)

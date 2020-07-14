@@ -9,13 +9,13 @@
     <div class="col-md-5">
         <form asp-controller="Pokemons" asp-action="Index" method="get">
             @{
-                if ((bool)ViewData["verif"])
+                if ((bool)ViewData["verif"] && searchValue.ToArray()[0].ToString() != string.Empty)
                 {
                     <input name="search" type="text" value="@searchValue.ToArray()[0].ToString()"/>
                 }
                 else
                 {
-                    <input name="search" type="text" />
+                    <input name="search" type="text" placeholder="Search..."/>
                     
 
                 }
@@ -42,10 +42,9 @@
     <tbody>
         @foreach (Pokemon item in Model)
         {
-
             <tr>
                 <td>
-                    <img src="@item.Image" alt="missing sprite" />
+                    <img src="@item.Image" alt="missing sprite"/>
                 </td>
                 <td>
 
@@ -53,8 +52,13 @@
                         @Html.DisplayFor(modelItem => item.Identifier)
                     </a>
                 </td>
+                @foreach (TeamBuilderPkmnASP.Models.Type type in item.Types)
+                {
+                    <td>
+                        <img src="@type.Image" alt="@type.Name" width="75"/>
+                    </td>
+                }
             </tr>
-
         }
     </tbody>
 </table>
