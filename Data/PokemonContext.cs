@@ -13,6 +13,8 @@ namespace TeamBuilderPkmnASP.Data
         }
 
         public virtual DbSet<Pokemon> Pokemon { get; set; }
+        public virtual DbSet<Type> Type { get; set; }
+        public virtual DbSet<PokemonType> PokemonType { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

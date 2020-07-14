@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +16,34 @@ namespace TeamBuilderPkmnASP.Controllers
     {
         private readonly PokemonContext _context;
 
-        public PokemonsController(PokemonContext context)
+        private PokemonContext AddTypesToPokemon (PokemonContext context)
         {
-            _context = context;
+            foreach (var pokemon in context.Pokemon)
+            {
+                IQueryable<PokemonType> pokemonTypesQuery = from pokeType in context.PokemonType
+                                                            where pokeType.PokemonId == pokemon.Id
+                                                            select pokeType;
+
+                List<PokemonType> pokemonTypes = pokemonTypesQuery.ToList();
+                foreach (PokemonType pokemonType in pokemonTypes)
+                {
+                    pokemonType.Type = (from type in context.Type
+                                        where type.Id == pokemonType.TypeId
+                                        select type).Single();
+                    if (null == pokemon.Types)
+                    {
+                        pokemon.Types = new List<Models.Type>();
+                    }
+                    pokemon.Types.Add(pokemonType.Type);
+                }
+            }
+            return context;
         }
 
-        // GET: Pokemons
-        //public ViewResult Index()
-        //{
-          //  return View(_context.Pokemon.OrderBy(pokemon => pokemon.Order).ToList());
-        //}
+        public PokemonsController(PokemonContext context)
+        {
+            _context = AddTypesToPokemon(context);
+        }
 
         public ViewResult Index()
         {
@@ -38,21 +59,18 @@ namespace TeamBuilderPkmnASP.Controllers
             }
         }
 
-        // GET: Pokemons/Details/5
         public ViewResult Details(int? id)
         {
             if (id == null)
             {
                 return View(null);
             }
-
             var pokemon =  _context.Pokemon
                 .FirstOrDefault(m => m.Id == id);
             if (pokemon == null)
             {
                 return View(null);
             }
-
             return View(pokemon);
         }
     }
