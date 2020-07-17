@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using TeamBuilderPkmnASP.Data;
 using TeamBuilderPkmnASP.Models;
@@ -14,8 +10,8 @@ namespace TeamBuilderPkmnASP.Controllers
 {
     public class PokemonsController : Controller
     {
-        private readonly PokemonContext _context;
-
+        private readonly PokemonContext _pokemonContext;
+        private readonly UserContext _userContext;
         private PokemonContext AddTypesToPokemon (PokemonContext context)
         {
             foreach (var pokemon in context.Pokemon)
@@ -40,22 +36,31 @@ namespace TeamBuilderPkmnASP.Controllers
             return context;
         }
 
-        public PokemonsController(PokemonContext context)
+        public PokemonsController(PokemonContext context, UserContext userContext)
         {
-            _context = AddTypesToPokemon(context);
+            _pokemonContext = AddTypesToPokemon(context);
+            _userContext = userContext;
         }
 
         public ViewResult Index()
         {
+            ISession userSession = HttpContext.Session;
+            string userMail = userSession.GetString("user");
+            if(userMail != null)
+            {
+                User user = _userContext.User.Where(user => user.Mail == userMail).FirstOrDefault();
+                ViewData["user"] = user;
+            }
             StringValues search;
             var isSearched = Url.ActionContext.HttpContext.Request.Query.TryGetValue("search", out search);
             if(!isSearched)
             {
-                return View(_context.Pokemon.OrderBy(pokemon => pokemon.Order).ToList());
+                return View(_pokemonContext.Pokemon.OrderBy(pokemon => pokemon.Order).ToList());
             }
             else
             {
-                return View(_context.Pokemon.Where(pokemon => pokemon.Identifier.Contains(search)).OrderBy(pokemon => pokemon.Order));
+                var debug = _pokemonContext.Pokemon.Where(pokemon => pokemon.Identifier.Contains(search));
+                return View(_pokemonContext.Pokemon.Where(pokemon => pokemon.Identifier.Contains(search)).OrderBy(pokemon => pokemon.Order));
             }
         }
 
@@ -65,13 +70,26 @@ namespace TeamBuilderPkmnASP.Controllers
             {
                 return View(null);
             }
-            var pokemon =  _context.Pokemon
+            var pokemon =  _pokemonContext.Pokemon
                 .FirstOrDefault(m => m.Id == id);
             if (pokemon == null)
             {
                 return View(null);
             }
             return View(pokemon);
+        }
+
+        public ActionResult Login()
+        {
+            ViewData["Error"] = TempData["Error"];
+            ViewData["Title"] = "Login";
+            return View("../Login/UserForm");
+        }
+        public ActionResult Signin()
+        {
+            ViewData["Error"] = TempData["Error"];
+            ViewData["Title"] = "Signin";
+            return View("../Login/UserForm");
         }
     }
 }

@@ -5,18 +5,28 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlTypes;
+using SendGrid;
 
 namespace TeamBuilderPkmnASP
 {
     public static class DatabaseConnection
     {
         private static SqlConnection _connection = null;
+        private static SendGridClient _mailClient = null;
 
         public static SqlConnection Connection
         {
             get
             {
                 return GetConnection();
+            }
+        }
+
+        public static SendGridClient MailClient
+        {
+            get
+            {
+                return GetMailClient();
             }
         }
 
@@ -45,6 +55,16 @@ namespace TeamBuilderPkmnASP
                 }
             }
             return _connection;
+        }
+
+        public static SendGridClient GetMailClient()
+        {
+            if (_mailClient == null)
+            {
+                string api_key = Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+                _mailClient = new SendGridClient(api_key);
+            }
+            return _mailClient;
         }
     }
 }

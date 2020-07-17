@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Linq;
 using TeamBuilderPkmnASP.Models;
 
 namespace TeamBuilderPkmnASP.Data
 {
-    public partial class PokemonContext : DbContext
+    public partial class UserContext : DbContext
     {
-        public PokemonContext(DbContextOptions<PokemonContext> options)
+        public UserContext(DbContextOptions<UserContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Pokemon> Pokemon { get; set; }
-        public virtual DbSet<Type> Type { get; set; }
-        public virtual DbSet<PokemonType> PokemonType { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

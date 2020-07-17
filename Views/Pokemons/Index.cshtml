@@ -1,64 +1,76 @@
 ﻿@model IEnumerable<TeamBuilderPkmnASP.Models.Pokemon>
 @{
     ViewData["Title"] = "Pokemons list";
-    Microsoft.Extensions.Primitives.StringValues searchValue ="";
-    ViewData["verif"] = Url.ActionContext.HttpContext.Request.Query.TryGetValue("search",out searchValue);
+    Microsoft.Extensions.Primitives.StringValues searchValue = "";
+    ViewData["IsSearched"] = Url.ActionContext.HttpContext.Request.Query.TryGetValue("search", out searchValue);
+    Dictionary<string, string> login = new Dictionary<string, string>();
+    login.Add("title", "Login");
+    Dictionary<string, string> signin = new Dictionary<string, string>();
+    signin.Add("title", "Sign In");
+    TeamBuilderPkmnASP.Models.User user = null;
+    if (ViewData["user"] != null)
+    {
+        user = (TeamBuilderPkmnASP.Models.User)ViewData["user"];
+    }
 }
+<div class="row">
+    @if (ViewData["user"] == null)
+    {
+        <form class="col-md-2" method="post" asp-action="Login" asp-controller="Pokemons">
+            <button type="submit" name="title" value="Login">Se connecter</button>
+        </form>
+        <form class="col-md-2" method="post" asp-action="Signin" asp-controller="Pokemons">
+            <button type="submit" name="title" value="Signin">S'inscrire</button>
+        </form>
+    }
+    else
+    {
+        <div class="small">Bienvenue, @user.Pseudo</div>
+        <form class="offset-1" method="post" asp-action="Logoff" asp-controller="Login">
+            <button type="submit" name="logoff" value="">Se déconnecter</button>
+        </form>
+    }
+</div>
 <div class="row">
     <div class="col-md-5 offset-2"><h1>@ViewData["Title"]</h1></div>
     <div class="col-md-5">
         <form asp-controller="Pokemons" asp-action="Index" method="get">
             @{
-                if ((bool)ViewData["verif"] && searchValue.ToArray()[0].ToString() != string.Empty)
+                if ((bool)ViewData["IsSearched"] && searchValue.ToArray()[0].ToString() != string.Empty)
                 {
-                    <input name="search" type="text" value="@searchValue.ToArray()[0].ToString()"/>
+                    <input name="search" type="text" value="@searchValue.ToArray()[0].ToString()" />
                 }
                 else
                 {
-                    <input name="search" type="text" placeholder="Search..."/>
-                    
+                    <input name="search" type="text" placeholder="Search..." />
+
 
                 }
             }
 
             <input type="submit" />
-        </form> 
+        </form>
     </div>
 </div>
+<div class="container">
+    <div class="row" id="listHeader" style="margin-bottom:70px;">
+        <div class="col-md-4">Pokemon sprite</div>
+        <div class="col-md-4">Pokemon name</div>
+        <div class="col-md-4">Pokemon types</div>
+    </div>
+    @foreach (Pokemon pokemon in Model)
+    {
+        <a asp-controller="Pokemons" asp-action="Details" asp-route-id="@pokemon.Id" class="position-relative">
+            <div class="row" id="pkmnContainer" style="border-top: solid; border-top-color: dimgrey; border-top-width:1px; padding-top:20px">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                Nom
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Pokemon item in Model)
-        {
-            <tr>
-                <td>
-                    <img src="@item.Image" alt="missing sprite"/>
-                </td>
-                <td>
-
-                    <a asp-controller="Pokemons" asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Identifier)
-                    </a>
-                </td>
-                @foreach (TeamBuilderPkmnASP.Models.Type type in item.Types)
+                <div class="col-md-4"><object data="@pokemon.Image">missing link</object></div>
+                <div class="col-md-4">@pokemon.Identifier</div>
+                @foreach (TeamBuilderPkmnASP.Models.Type type in pokemon.Types)
                 {
-                    <td>
-                        <img src="@type.Image" alt="@type.Name" width="75"/>
-                    </td>
+                    <div class="col-md-2"><object data="@type.Image" style="width:66px;">@type.Name</object></div>
                 }
-            </tr>
-        }
-    </tbody>
-</table>
+
+            </div>
+        </a>
+    }
+</div>
