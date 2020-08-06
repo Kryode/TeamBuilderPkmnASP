@@ -1,0 +1,45 @@
+﻿@model TeamBuilderPkmnASP.Models.User
+
+@{
+    string user = null;
+    string aspAction = "Login";
+    if (ViewData["Usermail"] != null)
+    {
+        user = (string)ViewData["Usermail"];
+        aspAction = "VerifyLogin";
+    }
+}
+<div class="row">
+    <div class="offset-md-3">
+
+        <h1>Login</h1>
+    </div>
+</div>
+<div class="form-check">
+    <form method="post" asp-controller="Login" asp-action=@aspAction>
+        <div class="form-group">
+            <label for="mail">E-mail :</label>
+            <input class="form-control" type="email" name="mail" placeholder="E-mail" />
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Password :</label>
+            <input class="form-control" type="password" name="pwd" placeholder="Password" />
+        </div>
+        @if (user != null)
+        {
+            <input type="password" hidden name="token" value=@ViewData["Token"] />
+        }
+        <input class="btn btn-primary" type="submit" value="Login" />
+    </form>
+    @if (ViewData["Error"] != null)
+    {
+        <div class="small" style="color:darkred">
+            @ViewData["Error"];
+        </div>
+    }
+
+    <form class="btn offset-1" method="post" asp-action="Signin" asp-controller="Home">
+        <button type="submit" name="title" value="Signin">Sign in</button>
+    </form>
+</div>

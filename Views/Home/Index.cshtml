@@ -1,8 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<TeamBuilderPkmnASP.Models.Pokemon>
+@{
+    ViewData["Title"] = "Pokemons list";
+    Microsoft.Extensions.Primitives.StringValues searchValue = "";
+    ViewData["IsSearched"] = Url.ActionContext.HttpContext.Request.Query.TryGetValue("search", out searchValue);
+    TeamBuilderPkmnASP.Models.User user = null;
+    if (ViewData["user"] != null)
+    {
+        user = (TeamBuilderPkmnASP.Models.User)ViewData["user"];
+    }
 }
+<div class="row">
+    @if (ViewData["user"] == null)
+    {
+        <form class="col-md-2" method="post" asp-action="Login" asp-controller="Home">
+            <button type="submit" name="title" value="Login">Login</button>
+        </form>
+        <form class="col-md-2" method="post" asp-action="Signin" asp-controller="Home">
+            <button type="submit" name="title" value="Signin">Sign in</button>
+        </form>
+    }
+    else
+    {
+        <div class="small">Welcome, @user.Pseudo</div>
+        <form class="offset-1" method="post" asp-action="Logoff" asp-controller="Login">
+            <button type="submit" name="logoff" value="">Log off</button>
+        </form>
+    }
+</div>
+<div class="row">
+    <div class="col-md-5 offset-2"><h1>@ViewData["Title"]</h1></div>
+    <div class="col-md-5">
+        <form asp-controller="Home" asp-action="Index" method="get">
+            @{
+                if ((bool)ViewData["IsSearched"] && searchValue.ToArray()[0].ToString() != string.Empty)
+                {
+                    <input name="search" type="text" value="@searchValue.ToArray()[0].ToString()" />
+                }
+                else
+                {
+                    <input name="search" type="text" placeholder="Search..." />
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p><a asp-controller="Pokemons" asp-action="Index">Go to Pokemon list</a></p>
+
+                }
+            }
+
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row" id="listHeader" style="margin-bottom:70px;">
+        <div class="col-md-4">Pokemon sprite</div>
+        <div class="col-md-4">Pokemon name</div>
+        <div class="col-md-4">Pokemon types</div>
+    </div>
+    @foreach (Pokemon pokemon in Model)
+    {
+        <a asp-controller="Home" asp-action="Details" asp-route-id="@pokemon.Id" class="position-relative" id="@pokemon.Identifier">
+            <div class="row" id="pkmnContainer" style="border-top: solid; border-top-color: dimgrey; border-top-width:1px; padding-top:20px">
+
+                <div class="col-md-4"><object data="@pokemon.Image">missing link</object></div>
+                <div class="col-md-4">@pokemon.Identifier</div>
+                @foreach (TeamBuilderPkmnASP.Models.Type type in pokemon.Types)
+                {
+                    <div class="col-md-2"><object data="@type.Image" style="width:66px;">@type.Name</object></div>
+                }
+
+            </div>
+        </a>
+    }
 </div>

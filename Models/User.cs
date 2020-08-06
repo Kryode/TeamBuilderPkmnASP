@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 using System.Text;
+using KryodeHelpers;
 
 namespace TeamBuilderPkmnASP.Models
 {
@@ -37,17 +38,7 @@ namespace TeamBuilderPkmnASP.Models
             {
                 if (!IsPwdInputHashed)
                 {
-                    using (var sha = new SHA256Managed())
-                    {
-                        byte[] array = Encoding.Default.GetBytes(value);
-                        array = sha.ComputeHash(array);
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var b in array)
-                        {
-                            sb.Append(b.ToString("x2"));
-                        }
-                        hashedPwd = sb.ToString();
-                    }
+                    hashedPwd = ConnectionHelper.SHA256StringConstructor(value);
                 }
                 else
                 {
