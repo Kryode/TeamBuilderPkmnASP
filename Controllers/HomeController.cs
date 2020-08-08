@@ -42,6 +42,8 @@ namespace TeamBuilderPkmnASP.Controllers
             return context;
         }
 
+        
+
         public HomeController(PokemonContext context, UserContext userContext, ILogger<HomeController> logger)
         {
             _pokemonContext = AddTypesToPokemon(context);

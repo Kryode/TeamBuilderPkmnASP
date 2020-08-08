@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamBuilderPkmnASP.Models;
-
 namespace TeamBuilderPkmnASP.Data
 {
     public partial class PokemonContext : DbContext
@@ -10,9 +9,9 @@ namespace TeamBuilderPkmnASP.Data
         {
         }
 
-        public virtual DbSet<Pokemon> Pokemon { get; set; }
-        public virtual DbSet<Type> Type { get; set; }
         public virtual DbSet<PokemonType> PokemonType { get; set; }
+        public virtual DbSet<Type> Type { get; set; }
+        public virtual DbSet<Pokemon> Pokemon { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -21,5 +20,7 @@ namespace TeamBuilderPkmnASP.Data
                 optionsBuilder.UseSqlServer(DatabaseConnection.Connection);
             }
         }
+        
+
     }
 }

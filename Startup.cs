@@ -23,11 +23,10 @@ namespace TeamBuilderPkmnASP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddDbContext<PokemonContext>(options =>
-                    options.UseSqlServer(DatabaseConnection.Connection));
-            services.AddDbContext<UserContext>(options => 
-                    options.UseSqlServer(DatabaseConnection.Connection));
+            services.AddDbContext<PokemonContext>(options => options.UseLazyLoadingProxies()
+                    .UseSqlServer(DatabaseConnection.Connection));
+            services.AddDbContext<UserContext>(options => options.UseLazyLoadingProxies()
+                    .UseSqlServer(DatabaseConnection.Connection));
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
