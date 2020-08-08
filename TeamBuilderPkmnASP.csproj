@@ -2953,13 +2953,20 @@
 
   <ItemGroup>
     <Folder Update="Resources\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Pokemons\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ConnectionHelper">
+      <HintPath>dependancies\ConnectionHelper.dll</HintPath>
+    </Reference>
     <Reference Include="StringHelper">
       <HintPath>dependancies\StringHelper.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 
