@@ -1,0 +1,42 @@
+﻿@model TeamBuilderPkmnASP.Models.User
+
+<div class="row">
+    <div class="offset-md-3">
+        <h1>Sign on</h1>
+    </div>
+</div>
+<div class="form-check">
+    <form method="post" asp-controller="Login" asp-action="Signon">
+        <div class="form-group">
+            <label for="mail">E-mail :</label>
+            <input class="form-control" type="email" name="mail" placeholder="E-mail" />
+        </div>
+
+        <div class="form-group">
+            <label for="pseudo">Username:</label>
+            <input class="form-control" type="text" name="pseudo" placeholder="Username" />
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Password :</label>
+            <input class="form-control" type="password" name="pwd" placeholder="Password" />
+        </div>
+
+        <div class="form-group">
+            <label for="validPwd">Confirm your password</label>
+            <input class="form-control" type="password" name="validPwd" placeholder="Retype password" />
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Sign on" />
+    </form>
+    @if (ViewData["Error"] != null)
+    {
+        <div class="small" style="color:darkred">
+            @ViewData["Error"];
+        </div>
+    }
+    <form class="btn offset-1" method="post" asp-action="Login" asp-controller="Home">
+        <button type="submit" name="title" value="Login">Login</button>
+    </form>
+
+</div>

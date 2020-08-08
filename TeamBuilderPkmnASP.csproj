@@ -25,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="SendGrid" Version="9.18.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
@@ -2952,13 +2953,20 @@
 
   <ItemGroup>
     <Folder Update="Resources\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Pokemons\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ConnectionHelper">
+      <HintPath>dependancies\ConnectionHelper.dll</HintPath>
+    </Reference>
     <Reference Include="StringHelper">
       <HintPath>dependancies\StringHelper.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" wwwroot_4lib_4bootstrap_4dist_4js_4bootstrap_1bundle_1js_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 

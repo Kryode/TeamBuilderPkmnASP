@@ -37,7 +37,7 @@
             <dd class="col-sm-10">
                 @foreach (TeamBuilderPkmnASP.Models.Type type in Model.Types)
                 {
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
                         <img src="@type.Image" alt="@type.Name" width="66"/>
                     </div>
                 }
@@ -45,6 +45,6 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a href="../#@Model.Identifier">Back to List</a>
     </div>
 }
