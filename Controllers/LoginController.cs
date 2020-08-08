@@ -48,7 +48,7 @@ namespace TeamBuilderPkmnASP.Controllers
                 {
                     _context.User.Add(user);
 
-                    var link = "https://localhost:44392/Login/VerifyMail/" + user.VerificationToken;
+                    var link = "https://pokemonteambuilder.azurewebsites.net/Login/VerifyMail/" + user.VerificationToken;
                     var message = new SendGridMessage();
                     message.AddTo(user.Mail);
                     message.From = new EmailAddress("verification@pkmnteambuilder.com");
