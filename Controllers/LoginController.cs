@@ -20,7 +20,7 @@ namespace TeamBuilderPkmnASP.Controllers
             _context = context;
         }
 
-        public ActionResult Signin()
+        public ActionResult Signon()
         {
             string userMail = HttpContext.Request.Form["mail"].ToString();
             string pwd = HttpContext.Request.Form["pwd"].ToString();
@@ -33,7 +33,7 @@ namespace TeamBuilderPkmnASP.Controllers
             if(HttpContext.Request.Form["validPwd"].ToString() != pwd)
             {
                 TempData["Error"] = "Les mots de passe ne sont pas identiques";
-                return RedirectToAction("Signin", "Home");
+                return RedirectToAction("Signon", "Home");
             }
             else
             {
@@ -57,6 +57,7 @@ namespace TeamBuilderPkmnASP.Controllers
                         "<a href=\"" + link + "\">Valider votre compte</a>";
                     _context.SaveChanges();
                     DatabaseConnection.MailClient.SendEmailAsync(message);
+                    TempData["Error"] = "Veuillez vérifier vos mails pour confirmer l'inscription !";
                 }
                 catch (Exception ex)
                 {
@@ -90,7 +91,7 @@ namespace TeamBuilderPkmnASP.Controllers
                 if (!user.IsVerified)
                 {
                     TempData["Error"] = "Compte non validé, veuillez vérifier vos mails";
-                    return RedirectToAction("Signin", "Home");
+                    return RedirectToAction("Signon", "Home");
                 }
                 ISession session = HttpContext.Session;
                 session.SetString("User", user.Mail);
@@ -129,7 +130,7 @@ namespace TeamBuilderPkmnASP.Controllers
             {
                 ///TODO: Setup contact mail
                 TempData["Error"] = "The link is wrong or expired, please confirm the link in mail or contact an administrator at ''";
-                return RedirectToAction("Signin", "Home");
+                return RedirectToAction("Signon", "Home");
             }
         }
         public ActionResult VerifyLogin()

@@ -94,10 +94,10 @@ namespace TeamBuilderPkmnASP.Controllers
             ViewData["Token"] = TempData["Token"];
             return View("Login");
         }
-        public ActionResult Signin()
+        public ActionResult Signon()
         {
             ViewData["Error"] = TempData["Error"];
-            return View("Signin");
+            return View("Signon");
         }
 
         public IActionResult Privacy()
